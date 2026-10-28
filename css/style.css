@@ -1,0 +1,358 @@
+/* =====================================================
+   蜀韵·成都 文化旅游宣传网 - 全局样式表
+   设计风格：现代简约 + 金色主题
+   说明：本文件与 index.html 结构完全分离
+   ===================================================== */
+
+/* ---------- CSS 变量：统一管理主题配色 ---------- */
+:root {
+    --gold: #D4AF37;        /* 主金色 */
+    --gold-dark: #B8912E;   /* 深金色（hover / 强调） */
+    --gold-light: #F5E9C8;  /* 浅金色（背景点缀） */
+    --ink: #2B2B2B;         /* 主文字色（深灰） */
+    --ink-light: #666;      /* 次级文字色 */
+    --bg: #FDFBF5;          /* 页面米白背景 */
+    --white: #fff;
+    --font-serif: "SimSun", "Songti SC", "Noto Serif SC", serif;    /* 标题衬线字体 */
+    --font-sans: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif; /* 正文字体 */
+}
+
+/* ---------- 基础重置与全局设置 ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth; /* 页面内平滑滚动 */
+}
+body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+}
+
+/* ==================== 页头区域样式 ==================== */
+.header {
+    position: sticky;              /* 吸顶：页面滚动时导航保持在顶部 */
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 左右两侧分布：Logo 靠左，导航靠右 */
+    height: 76px;
+    padding: 0 6%;
+    background: rgba(255, 255, 255, 0.95); /* 半透明白底，现代简约质感 */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- 左侧：Logo + 标题 ---------- */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+/* Logo 圆形图标：金色渐变背景 + "蜀"字 */
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--white);
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+}
+/* 网站标题 */
+.site-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--ink);
+}
+
+/* ---------- 右侧：导航栏 ---------- */
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 8px;
+}
+.nav-link {
+    display: block;
+    padding: 8px 18px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 20px;        /* 圆角胶囊效果 */
+    transition: all 0.3s ease;  /* 悬停过渡动画 */
+}
+/* 导航项悬停变色 */
+.nav-link:hover {
+    color: var(--gold-dark);
+}
+/* 当前页（首页）高亮：金色渐变胶囊背景 */
+.nav-link.active {
+    color: var(--white);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+}
+
+/* ==================== Banner 全屏轮播区域 ==================== */
+.banner {
+    position: relative;
+    width: 100%;
+    height: 100vh;               /* 全屏高度 */
+    overflow: hidden;            /* 隐藏溢出的轮播图 */
+}
+/* 轮播图容器与每张图片均铺满 Banner */
+.slider,
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* 单张轮播图：默认隐藏，添加 active 类后淡入显示 */
+.slide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+    background-size: cover;
+    background-position: center;
+}
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+/* 半透明遮罩：压暗图片，保证文字可读 */
+.slide-mask {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55));
+}
+/* 轮播图文案：居中显示 */
+.slide-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--white);
+    z-index: 2;
+}
+.slide-title {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    letter-spacing: 6px;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+}
+/* 标题下方的金色装饰线 */
+.slide-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    margin: 18px auto 0;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
+}
+.slide-text {
+    margin-top: 16px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+/* ---------- 左右切换按钮 ---------- */
+.btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    border: none;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    font-size: 26px;
+    border-radius: 50%;
+    backdrop-filter: blur(4px); /* 背景模糊，现代质感 */
+    transition: all 0.3s;
+}
+.btn:hover {
+    background: var(--gold);     /* 悬停变为金色 */
+}
+.prev {
+    left: 30px;
+}
+.next {
+    right: 30px;
+}
+
+/* ---------- 指示圆点 ---------- */
+.dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+}
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s;
+}
+/* 当前轮播图对应的圆点：金色长条高亮 */
+.dot.active {
+    width: 30px;
+    border-radius: 6px;
+    background: var(--gold);
+}
+
+/* ==================== 通用区块标题样式 ==================== */
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    text-align: center;
+    letter-spacing: 4px;
+    color: var(--ink);
+}
+/* 标题下方的金色装饰线 */
+.section-title::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 3px;
+    margin: 14px auto 0;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.section-subtitle {
+    text-align: center;
+    color: var(--ink-light);
+    margin-top: 10px;
+}
+
+/* ==================== 宣传视频区域 ==================== */
+.video-section {
+    padding: 80px 6%;
+    background: var(--white);
+}
+/* 视频容器：圆角卡片 + 阴影 + 顶部金色描边 */
+.video-wrapper {
+    max-width: 960px;
+    margin: 40px auto 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border-top: 4px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+.video-wrapper video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;   /* 固定 16:9 宽高比 */
+}
+
+/* ==================== 成都介绍文字区域 ==================== */
+.intro-section {
+    padding: 90px 6%;
+}
+.intro-text {
+    max-width: 820px;
+    margin: 32px auto 0;
+    text-align: left;
+    font-size: 17px;
+    line-height: 2.1;
+    color: var(--ink-light);
+    text-indent: 2em;       /* 段落首行缩进 */
+}
+
+/* ==================== 页脚区域样式 ==================== */
+.footer {
+    background: #222;       /* 深色页脚，与金色主题形成对比 */
+    color: #ccc;
+    text-align: center;
+    padding: 40px 6% 24px;
+}
+.footer-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--gold);     /* 金色标题点缀 */
+}
+.footer-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 18px 0;
+}
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+.footer-links a:hover {
+    color: var(--gold);
+}
+.copyright {
+    font-size: 13px;
+    color: #888;
+}
+
+/* ==================== 响应式适配（移动端） ==================== */
+@media (max-width: 768px) {
+    /* 页头改为纵向堆叠布局 */
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 14px 4% 10px;
+    }
+    .nav-list {
+        gap: 4px;
+    }
+    .nav-link {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+    /* Banner 高度适当缩减 */
+    .banner {
+        height: 60vh;
+    }
+    .slide-title {
+        font-size: 32px;
+    }
+    .slide-text {
+        font-size: 15px;
+    }
+    .btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .prev {
+        left: 10px;
+    }
+    .next {
+        right: 10px;
+    }
+    .section-title {
+        font-size: 26px;
+    }
+    .video-section,
+    .intro-section {
+        padding: 50px 4%;
+    }
+}
